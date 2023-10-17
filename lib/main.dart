@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -33,7 +31,7 @@ class ToDoDatabase {
     toDoList = [
       ToDoItem(name: "컴퓨터공학과 3학년", isCompleted: false),
       ToDoItem(name: "20190531 박현빈", isCompleted: false),
-      ToDoItem(name: "10/19 오픈소스프로젝트 과제2", isCompleted: false),
+      ToDoItem(name: "10/19 오픈소스프로젝트 과제2", isCompleted: true),
     ];
   }
 
@@ -100,7 +98,7 @@ class AddTaskDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.blueGrey[100],
+      backgroundColor: Colors.lightBlue[100],
       content: SizedBox(
         height: 120,
         child: Column(
@@ -143,7 +141,7 @@ class ToDoItemWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.blueGrey[200],
+          color: Colors.lightBlue[200],
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -151,6 +149,7 @@ class ToDoItemWidget extends StatelessWidget {
           children: [
             Row(
               children: [
+                 // ListTile의 좌측에 체크박스를 표시하여 완료 여부 선택
                 Checkbox(
                   value: item.isCompleted,
                   onChanged: onChanged,
@@ -166,6 +165,7 @@ class ToDoItemWidget extends StatelessWidget {
                 ),
               ],
             ),
+            // ListTile에 삭제 버튼 추가
             IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),  // 삭제 아이콘
               onPressed: onDelete,
@@ -182,6 +182,7 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -215,6 +216,7 @@ Widget build(BuildContext context) {
         ),
       ],
     ),
+    // 교안의 Filtered List View를 사용하여 Todo List 표시
     body: ListView.builder(
       itemCount: showCompletedTasksOnly  // 완료된 할 일만 보여줄지 여부에 따라 목록 길이 결정
           ? db.toDoList.where((task) => task.isCompleted).length
@@ -240,6 +242,7 @@ Widget build(BuildContext context) {
         );
       },
     ),
+    // Floated Button(+) 추가
     floatingActionButton: FloatingActionButton(
       onPressed: _addTask,  // '+' 버튼 클릭 시 새로운 할 일 추가 함수 실행
       child: const Icon(Icons.add),  // 플로팅 버튼 아이콘
@@ -251,6 +254,7 @@ Widget build(BuildContext context) {
   void _addTask() {
     showDialog(
       context: context,
+      // Dialog를 사용하여 할일 입력
       builder: (context) => AddTaskDialog(
         controller: _taskController,
         onSave: () {
